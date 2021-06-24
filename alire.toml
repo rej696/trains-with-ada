@@ -1,0 +1,10 @@
+name = "trains-with-ada"
+description = "A model railway system written in SPARK/Ada using raspberry pi pico"
+version = "0.0.1"
+
+authors = ["Rowan Saunders"]
+auto-gpr-with=false
+project-files = ["project.gpr"]
+
+[[depends-on]]
+pico_bsp = "0.2.1"
