@@ -23,18 +23,29 @@ RUN make -f Makefile
 RUN mkdir /user-bin
 RUN cp elf2uf2 /user-bin
 ENV PATH "$PATH:/user-bin"
-RUN echo "export PATH=$PATH:/user-bin" >> /root/.bashrc
+RUN echo "export PATH=$PATH=/user-bin" >> /root/.bashrc
 WORKDIR ~/
 
-# install GNAT community and GNAT ARM-ELF
+# install GNAT community
 WORKDIR /user-bin
 RUN mkdir GNAT2021
+RUN mkdir GNAT2021-ARM-ELF
 RUN git clone https://github.com/AdaCore/gnat_community_install_script
 WORKDIR /user-bin/gnat_community_install_script
 RUN curl -o gnat2021-bin -L https://community.download.adacore.com/v1/f3a99d283f7b3d07293b2e1d07de00e31e332325?filename=gnat-2021-20210519-x86_64-linux-bin&rand=1108
 RUN chmod +x gnat2021-bin
-RUN apt install -y fontconfig dbus libx11-xcb1
+RUN apt install -y fontconfig dbus libx11-xcb1 libncurses5 libxinerama1 libxrandr2 libxcursor1 libxi6 libxcb-shm0 xcb libxcb-render0
 RUN ./install_package.sh ./gnat2021-bin /user-bin/GNAT2021
+RUN echo "export PATH=$PATH=/user-bin/GNAT2021/bin" >> /root/.bashrc
+
+# install GNAT ARM ELF
+RUN curl -o gnat2021-armelf-bin -L https://community.download.adacore.com/v1/2ceb9d1ada2029d79556b710c6c4834cade3749f?filename=gnat-2021-20210519-arm-elf-linux64-bin&rand=898
+RUN chmod +x gnat2021-armelf-bin
+RUN ./install_package.sh ./gnat2021-armelf-bin /user-bin/GNAT2021-ARM-ELF
+RUN echo "export PATH=$PATH=/user-bin/GNAT2021-ARM-ELF/bin" >> /root/.bashrc
+
+# clean up
+RUN rm -r gnat_community_install_script/
 
 
 # install Alire
@@ -54,7 +65,7 @@ RUN git clone https://github.com/rej696/trains-with-ada.git
 
 
 # add alr edit command to .xinitrc
-RUN echo "exec alr edit --project=~/trains-with-ada/project.gpr" >> ~/.xinitrc && chmod +x ~/.xinitrc
+RUN echo "exec alr edit --project=~/trains-with-ada/project/project.gpr" >> ~/.xinitrc && chmod +x ~/.xinitrc
 
 # run vnc server
 CMD ["x11vnc", "-create", "-forever"]

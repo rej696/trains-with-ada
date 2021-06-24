@@ -47,5 +47,21 @@ This will produce a JSON full of configuration information. The IP address of th
 Now connect to `<IP address>:5900` using your VNC viewer, and you should see an instance of the project in GNATstudio open!
 
 
+### Build
+To build the project and get an uf2 firmware, you must run the following in the docker interactive terminal
+```
+cd ~/trains-with-ada
+alr build
+elf2uf2 ./project/obj/main ./firmware.uf2
+```
+
+You must then copy the firmware file from the docker container to your local machine for flashing onto your Pico.
+
+On your local machine terminal run the following commands
+```
+docker cp <container name>:/root/trains-with-ada/firmware.uf2 </path/to/pico>
+```
+```
+
 [VNC server setup](https://www.cloudsavvyit.com/10520/how-to-run-gui-applications-in-a-docker-container/)
 
