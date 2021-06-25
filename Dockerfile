@@ -1,7 +1,7 @@
 FROM ubuntu
 RUN apt update && apt upgrade -y
-# COPY . /project
 WORKDIR /root/
+ARG DEBIAN_FRONTEND=noninteractive
 
 # install vnc tools
 RUN apt install -y x11vnc xvfb
@@ -62,7 +62,6 @@ RUN git clone https://${GITHUB_TOKEN}@github.com/rej696/trains-with-ada.git
 
 
 # install desktop environment
-ARG DEBIAN_FRONTEND=noninteractive
 RUN apt install -y xfce4
 RUN echo "setxkbmap -layout gb" >> ~/.xinitrc
 RUN echo "exec startxfce4" >> ~/.xinitrc && chmod +x ~/.xinitrc
