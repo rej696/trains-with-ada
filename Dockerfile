@@ -59,10 +59,11 @@ ARG GITHUB_TOKEN
 RUN git clone https://${GITHUB_TOKEN}@github.com/rej696/trains-with-ada.git
 
 # install desktop environment
-#RUN apt install -y xfce4
-RUN apt install -y enlightenment
+RUN apt install -y xfce4
 RUN echo "setxkbmap -layout gb" >> ~/.xinitrc
-RUN echo "exec enlightenment" >> ~/.xinitrc && chmod +x ~/.xinitrc
+RUN echo "exec startxfce4" >> ~/.xinitrc && chmod +x ~/.xinitrc
+
+# RUN echo "\"gnatstudio\" NULL exec \"alr edit --project=\\\"/root/trains-with-ada/Trains_With_Ada/Trains_With_Ada.gpr\\\"\"" >> ~/.e16/menus/user_apps.menu
 
 # add alr edit command to .xinitrc
 # RUN echo "exec alr edit --project=~/trains-with-ada/project/project.gpr" >> ~/.xinitrc && chmod +x ~/.xinitrc
