@@ -1,6 +1,6 @@
 with "pico_bsp.gpr";
 
-project Project is 
+project Trains_With_Ada is 
    for Runtime("Ada") use "zfp-cortex-m0p";
    for Target use "arm-eabi";
    for Main use ("main.adb");
@@ -13,4 +13,4 @@ project Project is
       for Default_Switches ("Ada") use
          Pico_BSP.Linker_Switches;
    end Linker;
-end Project;
+end Trains_With_Ada;
