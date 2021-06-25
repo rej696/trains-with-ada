@@ -1,4 +1,4 @@
-name = "trains-with-ada"
+name = "trains_with_ada"
 description = "A model railway system written in SPARK/Ada using raspberry pi pico"
 version = "0.0.1"
 
