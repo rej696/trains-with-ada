@@ -86,8 +86,8 @@ docker inspect <container name>
 ```
 
 ## Links
-[Play with Docker Tutorial](https://training.play-with-docker.com/)
-[Docker Docs](https://docs.docker.com/)
-[Github Personal Access Tokens](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-[VNC server setup](https://www.cloudsavvyit.com/10520/how-to-run-gui-applications-in-a-docker-container/)
+- [Play with Docker Tutorial](https://training.play-with-docker.com/)
+- [Docker Docs](https://docs.docker.com/)
+- [Github Personal Access Tokens](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
+- [VNC server setup](https://www.cloudsavvyit.com/10520/how-to-run-gui-applications-in-a-docker-container/)
 
