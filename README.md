@@ -49,7 +49,15 @@ docker inspect <container-name>
 
 This will produce a JSON full of configuration information. The IP address of the container should be near the bottom.
 
-Now connect to `<IP address>:5900` using your VNC viewer, and you should see an instance of the project in GNATstudio open!
+Now connect to `<IP address>:5900` using your VNC viewer, and you should see an XFCE desktop environment!
+
+To launch gnatstudio in the container, open a terminal from within the XFCE desktop environment and run:
+```
+alr edit --project=/root/trains-with-ada/Trains_With_Ada/Trains_With_Ada.gpr"
+```
+This command will launch an instance of gnatstudio, where you can edit code, and do all your git operations.
+
+The git repo is cloned into the container at `/root/trains-with-ada`. You will need to do a `git pull` etc. to make sure everything is uptodate each time you run the container.
 
 
 ### Build
@@ -68,6 +76,14 @@ docker cp <container name>:/root/trains-with-ada/firmware.uf2 </path/to/pico>
 ```
 Now you have the .uf2 file on your host machine, you can flash the Pico!!
 
+### Docker tips
+```
+docker images
+docker container ls
+docker container start <container name>
+docker container stop <container name>
+docker inspect <container name>
+```
 
 ## Links
 [Play with Docker Tutorial](https://training.play-with-docker.com/)

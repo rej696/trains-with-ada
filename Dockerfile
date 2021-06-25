@@ -43,7 +43,6 @@ RUN echo "export PATH=$PATH:/user-bin:/user-bin/GNAT2021/bin:/user-bin/GNAT2021-
 # clean up
 RUN rm -r /user-bin/gnat_community_install_script/
 
-
 # install Alire
 WORKDIR /user-bin
 RUN curl -OL https://github.com/alire-project/alire/releases/download/v1.0.1/alr-1.0.1-bin-linux.zip
@@ -54,24 +53,19 @@ RUN rm alr-1.0.1-bin-linux.zip
 RUN rm -r bin
 WORKDIR /root/
 
-
 # clone project repo
 WORKDIR /root/
 ARG GITHUB_TOKEN
 RUN git clone https://${GITHUB_TOKEN}@github.com/rej696/trains-with-ada.git
 
-
 # install desktop environment
-RUN apt install -y xfce4
+#RUN apt install -y xfce4
+RUN apt install -y enlightenment
 RUN echo "setxkbmap -layout gb" >> ~/.xinitrc
-RUN echo "exec startxfce4" >> ~/.xinitrc && chmod +x ~/.xinitrc
+RUN echo "exec enlightenment" >> ~/.xinitrc && chmod +x ~/.xinitrc
 
 # add alr edit command to .xinitrc
 # RUN echo "exec alr edit --project=~/trains-with-ada/project/project.gpr" >> ~/.xinitrc && chmod +x ~/.xinitrc
 
 # run vnc server
 CMD ["x11vnc", "-create", "-forever"]
-
-# instructions for building and running
-# docker build -t trains-with-ada:v1
-# docker run 
