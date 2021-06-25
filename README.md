@@ -57,7 +57,7 @@ To build the project and get an uf2 firmware, you must run the following in the 
 ```
 cd ~/trains-with-ada
 alr build
-elf2uf2 ./project/obj/main ./firmware.uf2
+elf2uf2 ./Trains_With_Ada/obj/main ./firmware.uf2
 ```
 
 You must then copy the firmware file from the docker container to your local machine for flashing onto your Pico.
@@ -66,7 +66,12 @@ On your local machine terminal run the following commands
 ```
 docker cp <container name>:/root/trains-with-ada/firmware.uf2 </path/to/pico>
 ```
-```
+Now you have the .uf2 file on your host machine, you can flash the Pico!!
 
+
+## Links
+[Play with Docker Tutorial](https://training.play-with-docker.com/)
+[Docker Docs](https://docs.docker.com/)
+[Github Personal Access Tokens](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
 [VNC server setup](https://www.cloudsavvyit.com/10520/how-to-run-gui-applications-in-a-docker-container/)
 
