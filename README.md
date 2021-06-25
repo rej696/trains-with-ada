@@ -19,13 +19,13 @@ For full instructions regarding the installation of docker, see the [Docker Gett
 #### Running
 To build the docker environment from the Dockerfile, navigate into the directory with the Dockerfile and run the following:
 ```
-docker build -t trains-with-ada:v1 .
+docker build --build-arg GIT_USER_NAME "<your github username>" --build-arg GIT_USER_EMAIL "<your github email>" -t trains-with-ada:v1 .
 ```
 
 This will create a docker image which can be used to create a container with the following command:
 
 ```
-docker container run -it -p 5900:5900 -e GIT_USER_NAME="<github username>" -e GIT_USER_EMAIL="<github user email>" --name=<name for container, e.g. twaenv> -d trains-with-ada:v1
+docker container run -it -p 5900:5900 --name=<name for container, e.g. twaenv> -d trains-with-ada:v1
 ```
 
 This will start the docker container. It will start an interactive terminal into the container window which should contain the project directory.
