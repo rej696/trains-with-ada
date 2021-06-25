@@ -16,13 +16,18 @@ You will need docker installed on your machine.
 
 For full instructions regarding the installation of docker, see the [Docker Getting Started Guide](https://www.docker.com/get-started)
 
+You will also need at least 15GB of space for the completed docker image/containers
+
 #### Running
 To build the docker environment from the Dockerfile, navigate into the directory with the Dockerfile and run the following:
 ```
-docker build --build-arg GIT_USER_NAME "<your github username>" --build-arg GIT_USER_EMAIL "<your github email>" -t trains-with-ada:v1 .
+docker build --build-arg GIT_USER_NAME "<your github username>" --build-arg GIT_USER_EMAIL "<your github email>" --build-arg GITHUB_TOKEN "<you github user token>" -t trains-with-ada:v1 .
 ```
+You need to include your github username, github email address and a github authentication token so that docker can set up your details in the image and clone the trains with ada repository.
 
-This will create a docker image which can be used to create a container with the following command:
+To generate a GITHUB_TOKEN, go to https://github.com/settings/tokens and click generate new token. Copy the generated token and store it in a file or write it down, then use it in the docker build command.
+
+The above command will create a docker image which can be used to create a container with the following command:
 
 ```
 docker container run -it -p 5900:5900 --name=<name for container, e.g. twaenv> -d trains-with-ada:v1
