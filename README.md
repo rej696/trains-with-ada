@@ -1,11 +1,11 @@
-# trains-with-ada
-Make with ada code for model railway signalling system
+# Trains with Ada
+Make With Ada repository for a model railway signalling system
 
 
 ## Setup
 
 ### VNC
-on your local machine you will need to install a VNC client. This is so that you can view gnatstudio through the docker container.
+On your local machine you will need to install a VNC client. This is so that you can view GNATstudio through the docker container.
 
 On linux, I have been using Remmina. I used TeamViewer on ATC2 system test and that was adequate. You could also try the chrome extention that allows you to use chrome as a VNC viewer.
 
