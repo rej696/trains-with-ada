@@ -21,7 +21,7 @@ You will also need at least 15GB of space for the completed docker image/contain
 #### Running
 To build the docker environment from the Dockerfile, navigate into the directory with the Dockerfile and run the following:
 ```
-docker build --build-arg GIT_USER_NAME "<your github username>" --build-arg GIT_USER_EMAIL "<your github email>" --build-arg GITHUB_TOKEN "<you github user token>" -t trains-with-ada:v1 .
+docker build --build-arg GIT_USER_NAME="<your github username>" --build-arg GIT_USER_EMAIL="<your github email>" --build-arg GITHUB_TOKEN="<your github user token>" -t trains-with-ada:v1 .
 ```
 You need to include your github username, github email address and a github authentication token so that docker can set up your details in the image and clone the trains with ada repository.
 
