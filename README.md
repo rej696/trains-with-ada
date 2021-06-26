@@ -46,7 +46,7 @@ At this point you have an interactive terminal where you can run git commands an
 
 You need to find the IP address of the container in order to connect to it using your VNC viewer. Run the following on your host machine (not the container terminal):
 ```
-docker inspect <container-name>
+docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" <container-name>
 ```
 
 This will produce a JSON full of configuration information. The IP address of the container should be near the bottom.
