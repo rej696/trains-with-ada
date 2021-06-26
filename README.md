@@ -18,7 +18,9 @@ For full instructions regarding the installation of docker, see the [Docker Gett
 
 You will also need at least 15GB of space for the completed docker image/containers
 
-#### Running
+#### Running Docker
+If you are using docker desktop (i.e. on a windows machine or mac), you will need to make sure that docker is up to date, and it might be worth clicking the debug icon and restarting docker desktop before running any commands to reduce the likelihood of any errors.
+
 To build the docker environment from the Dockerfile, navigate into the directory with the Dockerfile and run the following:
 ```
 docker build --build-arg GIT_USER_NAME="<your github username>" --build-arg GIT_USER_EMAIL="<your github email>" --build-arg GITHUB_TOKEN="<your github user token>" -t trains-with-ada:v1 .
