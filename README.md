@@ -4,6 +4,27 @@ Make With Ada repository for a model railway signalling system
 
 ## Setup
 
+### Install Virtualbox
+- [Download the Virtualbox installer](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
+- Click through the installer wizard to install VirtualBox
+
+### Setup Linux VM
+[VM setup tutorial](https://community.microcenter.com/kb/articles/419-how-to-install-linux-in-a-virtual-machine-windows-10)
+- Open VirtualBox
+- Click `New`
+- Give your VM a name (I picked "Trains_With_Ada")
+- From the dropdown menus select `Linux` and `Ubuntu (64bit)`
+- Click through the rest of the wizard
+- Select the new Trains_With_Ada VM in the VirtualBox window and click settings
+- Open the `Storage` tab, and click the Disk icon that says `Empty`
+- Right of the `Optical Drive` field, click the disk icon to open a dropdown menu. 
+- Click `Choose a disk file` and select the linux image TODO
+- Open the `Network` tab, and check the `Enable Network Adapter` box
+- In the dropdown field `Attached to:` select `Bridged Adapter`. make sure your network adapter on your computer is selected in the `Name:` field
+- Click `OK`
+- [CUBIC](https://linuxhint.com/customize_ubuntu_iso_create_spin/) to create custom ubunut image for installing
+
+
 ### VNC
 On your local machine you will need to install a VNC client. This is so that you can view GNATstudio through the docker container.
 
