@@ -1,0 +1,34 @@
+{
+	// See https://go.microsoft.com/fwlink/?LinkId=733558
+	// for the documentation about the tasks.json format
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Alire Build",
+			"type": "shell",
+			"command": "alr",
+			"args": [
+				"build"
+			],
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		{
+			"label": "ELF to UF2",
+			"type": "shell",
+			"command": "elf2uf2",
+			"args": [
+				"./Trains_With_Ada/obj/main",
+				"./Trains_With_Ada/obj/firmware.uf2"
+			],
+			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		}
+	]
+  }
