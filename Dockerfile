@@ -18,6 +18,8 @@ WORKDIR /user-bin
 RUN mkdir GNAT2021-ARM-ELF
 RUN git clone https://github.com/AdaCore/gnat_community_install_script
 WORKDIR /user-bin/gnat_community_install_script
+RUN curl -o gnat2021-bin -L https://community.download.adacore.com/v1/f3a99d283f7b3d07293b2e1d07de00e31e332325?filename=gnat-2021-20210519-x86_64-linux-bin
+RUN ./install_package.sh ./gnat2021-bin /user-bin/GNAT2021
 
 # install GNAT ARM ELF
 RUN curl -o gnat2021-armelf-bin -L https://community.download.adacore.com/v1/2ceb9d1ada2029d79556b710c6c4834cade3749f?filename=gnat-2021-20210519-arm-elf-linux64-bin

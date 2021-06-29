@@ -4,27 +4,54 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
-			"label": "Alire Build",
+			"label": "Alire Build Trains_With_Ada",
 			"type": "shell",
 			"command": "alr",
 			"args": [
 				"build"
 			],
 			"problemMatcher": [],
-			"group": {
-				"kind": "build",
-				"isDefault": true
-			}
+			"group": "build",
 		},
 		{
-			"label": "ELF to UF2",
+			"label": "Create Trains_With_Ada Binary",
 			"type": "shell",
 			"command": "elf2uf2",
 			"args": [
 				"./Trains_With_Ada/obj/main",
 				"./Trains_With_Ada/obj/firmware.uf2"
 			],
+			"dependsOn": ["Alire Build Trains_With_Ada"],
 			"problemMatcher": [],
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
+		},
+		// Doesn't work
+		// {
+		// 	"label": "Setup Alire ENV",
+		// 	"type": "shell",
+		// 	"command": "eval",
+		// 	"args": [
+		// 		"$(cd ${workspaceFolder} && alr printenv --unix)"
+		// 	],
+		// 	"problemMatcher": [],
+		// 	"group": "build",
+		// },
+		{
+			"label": "Spark Prove - Current File",
+			"type": "shell",
+			"command": "gnatprove",
+			"args": [
+				"-P", "${workspaceFolder}/Trains_With_Ada/Trains_With_Ada.gpr",
+				"-u", "${file}"
+			],
+			"options": {
+				"env": {
+					"GPR_PROJECT_PATH": "/workspaces/trains-with-ada/Trains_With_Ada:/workspaces/trains-with-ada/alire/cache/dependencies/cortex_m_0.3.0_2ed1d3d3:/workspaces/trains-with-ada/alire/cache/dependencies/hal_0.1.0_f22ec626:/workspaces/trains-with-ada/alire/cache/dependencies/pico_bsp_0.2.1_6762b1f0:/workspaces/trains-with-ada/alire/cache/dependencies/rp2040_hal_0.2.1_3f05e6b1"
+				}
+			},
 			"group": {
 				"kind": "build",
 				"isDefault": true
