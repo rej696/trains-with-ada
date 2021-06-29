@@ -11,7 +11,7 @@
 				"build"
 			],
 			"problemMatcher": [],
-			"group": "build",
+			"group": "build"
 		},
 		{
 			"label": "Create Trains_With_Ada Binary",
@@ -21,31 +21,24 @@
 				"./Trains_With_Ada/obj/main",
 				"./Trains_With_Ada/obj/firmware.uf2"
 			],
-			"dependsOn": ["Alire Build Trains_With_Ada"],
+			"dependsOn": [
+				"Alire Build Trains_With_Ada"
+			],
 			"problemMatcher": [],
 			"group": {
 				"kind": "build",
 				"isDefault": true
 			}
 		},
-		// Doesn't work
-		// {
-		// 	"label": "Setup Alire ENV",
-		// 	"type": "shell",
-		// 	"command": "eval",
-		// 	"args": [
-		// 		"$(cd ${workspaceFolder} && alr printenv --unix)"
-		// 	],
-		// 	"problemMatcher": [],
-		// 	"group": "build",
-		// },
 		{
 			"label": "Spark Prove - Current File",
 			"type": "shell",
 			"command": "gnatprove",
 			"args": [
-				"-P", "${workspaceFolder}/Trains_With_Ada/Trains_With_Ada.gpr",
-				"-u", "${file}"
+				"-P",
+				"${workspaceFolder}/Trains_With_Ada/Trains_With_Ada.gpr",
+				"-u",
+				"${file}"
 			],
 			"options": {
 				"env": {
@@ -55,7 +48,8 @@
 			"group": {
 				"kind": "build",
 				"isDefault": true
-			}
+			},
+			"problemMatcher": "$ada",
 		}
 	]
   }
