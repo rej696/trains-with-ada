@@ -3,3 +3,4 @@ alire.lock
 build/
 obj/
 config/
+*.uf2

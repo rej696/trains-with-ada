@@ -25,11 +25,11 @@ mkdir GNAT2021-ARM-ELF;
 git clone https://github.com/AdaCore/gnat_community_install_script;
 cd ~/user-bin/gnat_community_install_script;
 curl -o gnat2021-bin -L https://community.download.adacore.com/v1/f3a99d283f7b3d07293b2e1d07de00e31e332325?filename=gnat-2021-20210519-x86_64-linux-bin;
-./install_package.sh ./gnat2021-bin /user-bin/GNAT2021;
+./install_package.sh ./gnat2021-bin ~/user-bin/GNAT2021;
 
 # install GNAT ARM ELF
 curl -o gnat2021-armelf-bin -L https://community.download.adacore.com/v1/2ceb9d1ada2029d79556b710c6c4834cade3749f?filename=gnat-2021-20210519-arm-elf-linux64-bin;
-./install_package.sh ./gnat2021-armelf-bin /user-bin/GNAT2021-ARM-ELF;
+./install_package.sh ./gnat2021-armelf-bin ~/user-bin/GNAT2021-ARM-ELF;
 echo "export PATH=$PATH:~/user-bin:~/user-bin/GNAT2021/bin:~/user-bin/GNAT2021-ARM-ELF/bin" >> ~/.bashrc;
 
 # clean up
