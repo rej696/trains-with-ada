@@ -4,13 +4,22 @@ Make With Ada repository for a model railway signalling system
 ## Instructions
 Install your favourite text editor/IDE
 
-Install Docker
-
 For Mac and Linux there are install scripts for setting up GNAT Community in the `setup` directory
 
-Clone the Repo
+### Install Docker
+You will need docker installed on your machine.
+
+For full instructions regarding the installation of docker, see the [Docker Getting Started Guide](https://www.docker.com/get-started)
+
+You will also need at least 15GB of space for the completed docker image/containers
+
+### Building the Pico Firmware
 
 Build the software using the `build.sh` script
+```
+./build.sh
+```
+This will place the `firmware.uf2` file in the top directory (`trains-with-ada`)
 
 If you cannot run the `build.sh` script, make sure to enable execute permissions:
 ```
