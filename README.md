@@ -21,6 +21,8 @@ Build the software using the `build.sh` script
 ```
 This will place the `firmware.uf2` file in the top directory (`trains-with-ada`)
 
+You can then drag and drop the firmware onto the pi pico
+
 If you cannot run the `build.sh` script, make sure to enable execute permissions:
 ```
 chmod +x build.sh
