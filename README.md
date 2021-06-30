@@ -1,8 +1,25 @@
 # Trains with Ada
 Make With Ada repository for a model railway signalling system
 
+## Instructions
+Install your favourite text editor/IDE
 
-## Setup
+Install Docker
+
+For Mac and Linux there are install scripts for setting up GNAT Community in the `setup` directory
+
+Clone the Repo
+
+Build the software using the `build.sh` script
+
+If you cannot run the `build.sh` script, make sure to enable execute permissions:
+```
+chmod +x build.sh
+```
+
+
+# OLD
+##  Setup
 
 ### Install Virtualbox
 - [Download the Virtualbox installer](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
