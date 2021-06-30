@@ -3,4 +3,5 @@ alire.lock
 build/
 obj/
 config/
+*.uf2
 .DS_Store

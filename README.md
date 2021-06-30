@@ -1,8 +1,57 @@
 # Trains with Ada
 Make With Ada repository for a model railway signalling system
 
+## Instructions
+Install your favourite text editor/IDE
 
-## Setup
+For Mac and Linux there are install scripts for setting up GNAT Community in the `setup` directory
+
+### Install Docker
+You will need docker installed on your machine.
+
+For full instructions regarding the installation of docker, see the [Docker Getting Started Guide](https://www.docker.com/get-started)
+
+You will also need at least 15GB of space for the completed docker image/containers
+
+### Building the Pico Firmware
+
+Build the software using the `build.sh` script
+```
+./build.sh
+```
+This will place the `firmware.uf2` file in the top directory (`trains-with-ada`)
+
+You can then drag and drop the firmware onto the pi pico
+
+If you cannot run the `build.sh` script, make sure to enable execute permissions:
+```
+chmod +x build.sh
+```
+
+
+# OLD
+##  Setup
+
+### Install Virtualbox
+- [Download the Virtualbox installer](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
+- Click through the installer wizard to install VirtualBox
+
+### Setup Linux VM
+[VM setup tutorial](https://community.microcenter.com/kb/articles/419-how-to-install-linux-in-a-virtual-machine-windows-10)
+- Open VirtualBox
+- Click `New`
+- Give your VM a name (I picked "Trains_With_Ada")
+- From the dropdown menus select `Linux` and `Ubuntu (64bit)`
+- Click through the rest of the wizard
+- Select the new Trains_With_Ada VM in the VirtualBox window and click settings
+- Open the `Storage` tab, and click the Disk icon that says `Empty`
+- Right of the `Optical Drive` field, click the disk icon to open a dropdown menu. 
+- Click `Choose a disk file` and select the linux image TODO
+- Open the `Network` tab, and check the `Enable Network Adapter` box
+- In the dropdown field `Attached to:` select `Bridged Adapter`. make sure your network adapter on your computer is selected in the `Name:` field
+- Click `OK`
+- [CUBIC](https://linuxhint.com/customize_ubuntu_iso_create_spin/) to create custom ubunut image for installing
+
 
 ### VNC
 On your local machine you will need to install a VNC client. This is so that you can view GNATstudio through the docker container.
