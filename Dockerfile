@@ -1,14 +1,14 @@
 FROM ubuntu
-RUN apt update && apt upgrade -y
+RUN apt-get update && apt-get upgrade -y
 WORKDIR /root/
 ARG DEBIAN_FRONTEND=noninteractive
 
-# install tools from apt
-RUN apt install -y curl unzip git apt-utils
-RUN apt update && apt upgrade -y
+# install tools from apt-get
+RUN apt-get install -y curl unzip git apt-get-utils
+RUN apt-get update && apt-get upgrade -y
 
 # install pico-sdk and get elf2uf2 tool
-RUN apt install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib
+RUN apt-get install -y cmake gcc-arm-none-eabi libnewlib-arm-none-eabi build-essential libstdc++-arm-none-eabi-newlib
 WORKDIR /root/
 RUN git clone https://github.com/raspberrypi/pico-sdk
 WORKDIR /root/pico-sdk/tools/elf2uf2
@@ -20,7 +20,7 @@ WORKDIR /root/
 
 # install GNAT community dependencies
 WORKDIR /user-bin
-RUN apt install -y fontconfig dbus libx11-xcb1 libncurses5 libxinerama1 libxrandr2 libxcursor1 libxi6 libxcb-shm0 xcb libxcb-render0
+RUN apt-get install -y fontconfig dbus libx11-xcb1 libncurses5 libxinerama1 libxrandr2 libxcursor1 libxi6 libxcb-shm0 xcb libxcb-render0
 RUN git clone https://github.com/AdaCore/gnat_community_install_script
 WORKDIR /user-bin/gnat_community_install_script
 
