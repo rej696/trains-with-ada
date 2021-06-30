@@ -4,7 +4,7 @@ WORKDIR /root/
 ARG DEBIAN_FRONTEND=noninteractive
 
 # install tools from apt-get
-RUN apt-get install -y curl unzip git apt-get-utils
+RUN apt-get install -y curl unzip git apt-utils
 RUN apt-get update && apt-get upgrade -y
 
 # install pico-sdk and get elf2uf2 tool
