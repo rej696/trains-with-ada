@@ -1,6 +1,5 @@
 import os
 import sys
-import pty
 import subprocess
 import argparse
 
@@ -25,8 +24,8 @@ if __name__ == "__main__":
         "-p",
         "--prove",
         nargs="*",
-        default=False,
-        help="run gnatprove on specified files, defaults to main.adb"
+        default="",
+        help="run gnatprove on specified file"
     )
 
     parser.add_argument(
@@ -50,7 +49,13 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
-    args.prove = True if args.prove == [] else args.prove
+    args.prove = "main.adb" if args.prove == [] else args.prove
+    if isinstance(args.prove, list):
+        if len(args.prove) > 1:
+            print("Only one file can be selected for the --prove option")
+            sys.exit()
+        else:
+            args.prove = args.prove[0]
 
     if (not args.build
             and not args.build_image
@@ -97,14 +102,11 @@ if __name__ == "__main__":
     if args.prove:
         docker_cmd.extend([
             "bash",
-            "/build/docker/pico-ada-builder/prove.sh"
+            "/build/docker/pico-ada-builder/prove.sh",
+            args.prove
         ])
-
-        if isinstance(args.prove, list):
-            docker_cmd.extend(args.prove)
-            print(f"Running gnatprove on {args.prove}")
-        else:
-            print("Running gnatprove on main.adb")
+        
+        print(f"Running gnatprove on {docker_cmd[-1]}")
 
         subprocess.run(
             docker_cmd,
