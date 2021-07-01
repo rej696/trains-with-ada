@@ -25,9 +25,9 @@ RUN git clone https://github.com/AdaCore/gnat_community_install_script
 WORKDIR /user-bin/gnat_community_install_script
 
 # install GNAT community
-# RUN mkdir /user-bin/GNAT2021
-# RUN curl -o gnat2021-bin -L https://community.download.adacore.com/v1/f3a99d283f7b3d07293b2e1d07de00e31e332325?filename=gnat-2021-20210519-x86_64-linux-bin
-# RUN ./install_package.sh ./gnat2021-bin /user-bin/GNAT2021
+RUN mkdir /user-bin/GNAT2021
+RUN curl -o gnat2021-bin -L https://community.download.adacore.com/v1/f3a99d283f7b3d07293b2e1d07de00e31e332325?filename=gnat-2021-20210519-x86_64-linux-bin
+RUN ./install_package.sh ./gnat2021-bin /user-bin/GNAT2021
 
 # install GNAT ARM ELF
 RUN mkdir /user-bin/GNAT2021-ARM-ELF
@@ -52,4 +52,4 @@ USER build
 WORKDIR /build
 
 # build firmware.uf2
-CMD alr build; elf2uf2 ./Trains_With_Ada/obj/main ./firmware.uf2;
+CMD mkdir -p logs;alr build > logs/build.log; elf2uf2 ./Trains_With_Ada/obj/main ./firmware.uf2;
