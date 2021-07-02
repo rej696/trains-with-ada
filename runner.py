@@ -163,7 +163,7 @@ if __name__ == "__main__":
         clean_cmd = deepcopy(DOCKER_CMD)
         clean_cmd.extend([
             "bash",
-            "/build/docker/pico-ada-builder/prove.sh"
+            "/build/docker/pico-ada-builder/clean.sh"
         ])
 
         subprocess.run(
