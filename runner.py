@@ -1,9 +1,21 @@
+"""Python script for running the GNAT toolchain in docker containers"""
+
 import os
 import sys
 import subprocess
 import argparse
 
+from copy import deepcopy
+
 IMAGE = "rej696/pico-ada-builder:latest"
+DOCKER_CMD = [
+    "docker",
+    "run",
+    "--rm",
+    "-v",
+    f"{os.getcwd()}:/build",
+    IMAGE
+]
 
 if __name__ == "__main__":
 
@@ -48,6 +60,13 @@ if __name__ == "__main__":
         help="Print the log to the stdout after running a build/prove command"
     )
 
+    parser.add_argument(
+        "-c",
+        "--clean",
+        action="store_true",
+        help="Clean the project directory of all build artefacts and logs"
+    )
+
     args = parser.parse_args()
     args.prove = "main.adb" if args.prove == [] else args.prove
     if isinstance(args.prove, list):
@@ -61,18 +80,10 @@ if __name__ == "__main__":
             and not args.build_image
             and not args.prove
             and not args.interactive
-            and not args.print_log):
+            and not args.print_log
+            and not args.clean):
         print("No arguments given, run python runner.py --help for options")
         sys.exit()
-
-    docker_cmd = [
-        "docker",
-        "run",
-        "--rm",
-        "-v",
-        f"{os.getcwd()}:/build",
-        IMAGE
-    ]
 
     if args.build_image:
         print("Building pico-ada-builder Docker Image")
@@ -91,7 +102,7 @@ if __name__ == "__main__":
     if args.build:
         print("Building firmware")
         subprocess.run(
-            docker_cmd,
+            DOCKER_CMD,
             check=True,
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,
@@ -100,16 +111,17 @@ if __name__ == "__main__":
         print("Build complete")
 
     if args.prove:
-        docker_cmd.extend([
+        prove_cmd = deepcopy(DOCKER_CMD)
+        prove_cmd.extend([
             "bash",
             "/build/docker/pico-ada-builder/prove.sh",
             args.prove
         ])
-        
-        print(f"Running gnatprove on {docker_cmd[-1]}")
+
+        print(f"Running gnatprove on {prove_cmd[-1]}")
 
         subprocess.run(
-            docker_cmd,
+            prove_cmd,
             check=True,
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,
@@ -145,3 +157,20 @@ if __name__ == "__main__":
 #         )
         os.system(f"docker run -it --rm -v {os.getcwd()}:/build {IMAGE} bash")
         print("Interactive container closed")
+
+    if args.clean:
+        print("Cleaning project directory of artefacts")
+        clean_cmd = deepcopy(DOCKER_CMD)
+        clean_cmd.extend([
+            "bash",
+            "/build/docker/pico-ada-builder/prove.sh"
+        ])
+
+        subprocess.run(
+            clean_cmd,
+            check=True,
+            stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        print("Clean complete")
