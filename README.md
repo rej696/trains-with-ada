@@ -30,7 +30,7 @@ python3 runner.py -l
 ### Tests
 I am currently looking into how we can run tests . Alire includes a [testing framework](https://github.com/alire-project/alire/tree/master/testsuite) that uses python2.
 
-See Issue [#7](../../issues/7)
+See Issue [#7](https://github.com/rej696/trains-with-ada/issues/7)
 
 ## Dependencies
 Install your favourite text editor/IDE. If you wish to use GNATStudio, see the GNATCommunity and Alire section
