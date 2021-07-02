@@ -1,0 +1,15 @@
+name = "trains_with_ada_harness"
+description = "Test Harness for trains with ada"
+version = "0.0.1"
+
+authors = ["Rowan Saunders"]
+auto-gpr-with=false
+project-files = ["trains_with_ada_harness.gpr"]
+
+executables = ["harness"]
+
+[[depends-on]]  # This line was added by `alr with`
+aunit = "^21.0.0"  # This line was added by `alr with`
+
+[[depends-on]]  # This line was added by `alr with`
+pico_bsp = "~0.4.0"  # This line was added by `alr with`

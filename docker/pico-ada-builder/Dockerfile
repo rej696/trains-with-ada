@@ -50,6 +50,3 @@ RUN rm -r bin
 RUN groupadd build && useradd -m -g build build
 USER build
 WORKDIR /build
-
-# build firmware.uf2
-CMD mkdir -p logs;alr build > logs/build.log; elf2uf2 ./Trains_With_Ada/obj/main ./firmware.uf2;

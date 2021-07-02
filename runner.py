@@ -67,6 +67,13 @@ if __name__ == "__main__":
         help="Clean the project directory of all build artefacts and logs"
     )
 
+    parser.add_argument(
+        "-t",
+        "--test",
+        action="store_true",
+        help="Run the tests stored in the Harness directory"
+    )
+
     args = parser.parse_args()
     args.prove = "main.adb" if args.prove == [] else args.prove
     if isinstance(args.prove, list):
@@ -81,7 +88,8 @@ if __name__ == "__main__":
             and not args.prove
             and not args.interactive
             and not args.print_log
-            and not args.clean):
+            and not args.clean
+            and not args.test):
         print("No arguments given, run python runner.py --help for options")
         sys.exit()
 
@@ -101,8 +109,13 @@ if __name__ == "__main__":
 
     if args.build:
         print("Building firmware")
+        build_cmd = deepcopy(DOCKER_CMD)
+        build_cmd.extend([
+            "bash",
+            "/build/docker/pico-ada-builder/build.sh"
+        ])
         subprocess.run(
-            DOCKER_CMD,
+            build_cmd,
             check=True,
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE,
@@ -129,8 +142,27 @@ if __name__ == "__main__":
         )
         print("gnatprove complete, output in logs/prove.log")
 
+    if args.test:
+        print("Running Unit Tests")
+        test_cmd = deepcopy(DOCKER_CMD)
+        test_cmd.extend([
+            "bash",
+            "/build/docker/pico-ada-builder/test.sh",
+        ])
+        subprocess.run(
+            test_cmd,
+            check=True,
+            stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        print("Testing complete")
+
     if args.print_log:
-        if args.prove:
+        if args.test:
+            with open("/logs/test.log", "r") as f:
+                print(f.read())
+        elif args.prove:
             with open("logs/prove.log", "r") as f:
                 print(f.read())
         else:
