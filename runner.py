@@ -93,6 +93,23 @@ if __name__ == "__main__":
         print("No arguments given, run python runner.py --help for options")
         sys.exit()
 
+    if args.clean:
+        print("Cleaning project directory of artefacts")
+        clean_cmd = deepcopy(DOCKER_CMD)
+        clean_cmd.extend([
+            "bash",
+            "/build/docker/pico-ada-builder/clean.sh"
+        ])
+
+        subprocess.run(
+            clean_cmd,
+            check=True,
+            stdout=subprocess.PIPE,
+            stdin=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
+        print("Clean complete")
+
     if args.build_image:
         print("Building pico-ada-builder Docker Image")
         subprocess.run(
@@ -105,7 +122,7 @@ if __name__ == "__main__":
             stdout=subprocess.PIPE,
             stdin=subprocess.PIPE
         )
-        print("pico-ada-builder Image Created")
+        print("pico-ada-builder Image created")
 
     if args.build:
         print("Building firmware")
@@ -121,6 +138,7 @@ if __name__ == "__main__":
             stdin=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
+        print("firmware.uf2 created")
         print("Build complete")
 
     if args.prove:
@@ -140,10 +158,10 @@ if __name__ == "__main__":
             stdin=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        print("gnatprove complete, output in logs/prove.log")
+        print("gnatprove complete, check logs")
 
     if args.test:
-        print("Running Unit Tests")
+        print("Building test firmware")
         test_cmd = deepcopy(DOCKER_CMD)
         test_cmd.extend([
             "bash",
@@ -156,17 +174,30 @@ if __name__ == "__main__":
             stdin=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        print("Testing complete")
+        print("test_firmware.uf2 created")
+        print("Build complete")
 
     if args.print_log:
-        if args.test:
-            with open("/logs/test.log", "r") as f:
-                print(f.read())
-        elif args.prove:
-            with open("logs/prove.log", "r") as f:
-                print(f.read())
-        else:
+        if args.build:
             with open("logs/build.log", "r") as f:
+                print("Build Log:")
+                print(f.read())
+            with open("logs/build-error.log", "r") as f:
+                print("Build Error Log:")
+                print(f.read())
+        if args.prove:
+            with open("logs/prove.log", "r") as f:
+                print("Prove Log:")
+                print(f.read())
+            with open("logs/prove-error.log", "r") as f:
+                print("Prove Error Log:")
+                print(f.read())
+        if args.test:
+            with open("logs/test.log", "r") as f:
+                print("Test Log:")
+                print(f.read())
+            with open("logs/test-error.log", "r") as f:
+                print("Test Error Log:")
                 print(f.read())
 
     if args.interactive:
@@ -189,20 +220,3 @@ if __name__ == "__main__":
 #         )
         os.system(f"docker run -it --rm -v {os.getcwd()}:/build {IMAGE} bash")
         print("Interactive container closed")
-
-    if args.clean:
-        print("Cleaning project directory of artefacts")
-        clean_cmd = deepcopy(DOCKER_CMD)
-        clean_cmd.extend([
-            "bash",
-            "/build/docker/pico-ada-builder/clean.sh"
-        ])
-
-        subprocess.run(
-            clean_cmd,
-            check=True,
-            stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        print("Clean complete")
