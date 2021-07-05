@@ -101,28 +101,37 @@ if __name__ == "__main__":
             "/build/docker/pico-ada-builder/clean.sh"
         ])
 
-        subprocess.run(
-            clean_cmd,
-            check=True,
-            stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        print("Clean complete")
+        try:
+            subprocess.run(
+                clean_cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print("Clean complete")
+        except subprocess.CalledProcessError as error:
+            print(error)
+            print("Clean failed")
 
     if args.build_image:
         print("Building pico-ada-builder Docker Image")
-        subprocess.run(
-            ["docker",
-             "build",
-             "-t",
-             IMAGE,
-             "docker/pico-ada-builder/"],
-            check=True,
-            stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE
-        )
-        print("pico-ada-builder Image created")
+
+        try:
+            subprocess.run(
+                ["docker",
+                 "build",
+                 "-t",
+                 IMAGE,
+                 "docker/pico-ada-builder/"],
+                check=True,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE
+            )
+            print("pico-ada-builder Image created")
+        except subprocess.CalledProcessError as error:
+            print(error)
+            print("Image build failed")
 
     if args.build:
         print("Building firmware")
@@ -131,15 +140,20 @@ if __name__ == "__main__":
             "bash",
             "/build/docker/pico-ada-builder/build.sh"
         ])
-        subprocess.run(
-            build_cmd,
-            check=True,
-            stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        print("firmware.uf2 created")
-        print("Build complete")
+
+        try:
+            subprocess.run(
+                build_cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print("firmware.uf2 created")
+            print("Build complete")
+        except subprocess.CalledProcessError as error:
+            print(error)
+            print("Firmware build failed")
 
     if args.prove:
         prove_cmd = deepcopy(DOCKER_CMD)
@@ -151,14 +165,18 @@ if __name__ == "__main__":
 
         print(f"Running gnatprove on {prove_cmd[-1]}")
 
-        subprocess.run(
-            prove_cmd,
-            check=True,
-            stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        print("gnatprove complete, check logs")
+        try:
+            subprocess.run(
+                prove_cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print("gnatprove complete, check logs")
+        except subprocess.CalledProcessError as error:
+            print(error)
+            print("gnatprove run failed")
 
     if args.test:
         print("Building test firmware")
@@ -167,15 +185,20 @@ if __name__ == "__main__":
             "bash",
             "/build/docker/pico-ada-builder/test.sh",
         ])
-        subprocess.run(
-            test_cmd,
-            check=True,
-            stdout=subprocess.PIPE,
-            stdin=subprocess.PIPE,
-            stderr=subprocess.PIPE
-        )
-        print("test_firmware.uf2 created")
-        print("Build complete")
+
+        try:
+            subprocess.run(
+                test_cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print("test_firmware.uf2 created")
+            print("Build complete")
+        except subprocess.CalledProcessError as error:
+            print(error)
+            print("Test firmware build failed")
 
     if args.print_log:
         if args.build:
@@ -218,5 +241,9 @@ if __name__ == "__main__":
 #             stderr=subprocess.PIPE,
 #             shell=True
 #         )
-        os.system(f"docker run -it --rm -v {os.getcwd()}:/build {IMAGE} bash")
-        print("Interactive container closed")
+        try:
+            os.system(f"docker run -it --rm -v {os.getcwd()}:/build {IMAGE} bash")
+            print("Interactive container closed")
+        except Exception as error:
+            print(error)
+            print("Interactive container failure")
