@@ -7,4 +7,4 @@ auto-gpr-with=false
 project-files = ["Trains_With_Ada.gpr"]
 
 [[depends-on]]
-pico_bsp = "^0.2.1"
+pico_bsp = "^0.4"
