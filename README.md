@@ -45,10 +45,10 @@ You can read these output strings using a second Raspberry Pi Pico that has the 
 This "Bridge Pico" must be connected to a Computer via USB that has a Serial console installed, such as [Minicom](https://wiki.emacinc.com/wiki/Getting_Started_With_Minicom) or [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
 
 The "Test Pico" must be connected to the "Bridge Pico" as follows:
-| Test Pico | Bridge Pico |
-| -- | -- | -- |
-| GPIO 16 (TX) | GPIO 1 (RX) |
-| GPIO 17 (RX) | GPIO 0 (TX) |
+Test Pico | Bridge Pico
+--- | ---
+GPIO 16 (TX) | GPIO 1 (RX)
+GPIO 17 (RX) | GPIO 0 (TX)
 
 ## Dependencies
 Install your favourite text editor/IDE. If you wish to use GNATStudio, see the GNATCommunity and Alire section
