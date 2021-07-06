@@ -1,144 +1,110 @@
 # Trains with Ada
 Make With Ada repository for a model railway signalling system
 
+Competition now called [Ada/SPARK Crate Of The Year](https://blog.adacore.com/announcing-the-first-ada-spark-crate-of-the-year-award)
+
 ## Instructions
-Install your favourite text editor/IDE
+The project includes a `runner.py` python script which runs docker commands.
 
-For Mac and Linux there are install scripts for setting up GNAT Community in the `setup` directory
+### Running the Script
+There are various options that are explained if you run `python3 runner.py --help`.
 
-### Install Docker
-You will need docker installed on your machine.
-
-For full instructions regarding the installation of docker, see the [Docker Getting Started Guide](https://www.docker.com/get-started)
-
-You will also need at least 15GB of space for the completed docker image/containers
-
-### Building the Pico Firmware
-
-Build the software using the `build.sh` script
-```
-./build.sh
-```
-This will place the `firmware.uf2` file in the top directory (`trains-with-ada`)
+#### Building Firmware
+`python3 runner.py -b` will build a firmware.uf2 file ready to be flashed to the pico, and place it at the top of the project directory structure.
 
 You can then drag and drop the firmware onto the pi pico
 
-If you cannot run the `build.sh` script, make sure to enable execute permissions:
+#### Running Spark Prover
+`python3 runner.py -p <filename>` will run gnatprove on the given file. If no filename is stated, this defaults to `main.adb`.
+
+### Logs
+Outputs from building and proving the project with the python runner tool are stored in the `logs` directory.
+
+These logs are overwritten each time the appropriate command is run.
+
+You can show the contents of the log in your terminal using the `-l` option
 ```
-chmod +x build.sh
+python3 runner.py -l
 ```
 
+### Tests
+To create tests, write test code in the `Harness/tests/` directory
 
-# OLD
-##  Setup
+This project can call functions, packages and procedures from the `Trains_With_Ada` project.
 
-### Install Virtualbox
-- [Download the Virtualbox installer](https://www.oracle.com/virtualization/technologies/vm/downloads/virtualbox-downloads.html)
-- Click through the installer wizard to install VirtualBox
+To build the test harness Pico Firmware run
+```
+python3 runner.py -t
+```
+This wil create a `test_firmware.uf2` file that can be loaded onto the Pico.
 
-### Setup Linux VM
-[VM setup tutorial](https://community.microcenter.com/kb/articles/419-how-to-install-linux-in-a-virtual-machine-windows-10)
-- Open VirtualBox
-- Click `New`
-- Give your VM a name (I picked "Trains_With_Ada")
-- From the dropdown menus select `Linux` and `Ubuntu (64bit)`
-- Click through the rest of the wizard
-- Select the new Trains_With_Ada VM in the VirtualBox window and click settings
-- Open the `Storage` tab, and click the Disk icon that says `Empty`
-- Right of the `Optical Drive` field, click the disk icon to open a dropdown menu. 
-- Click `Choose a disk file` and select the linux image TODO
-- Open the `Network` tab, and check the `Enable Network Adapter` box
-- In the dropdown field `Attached to:` select `Bridged Adapter`. make sure your network adapter on your computer is selected in the `Name:` field
-- Click `OK`
-- [CUBIC](https://linuxhint.com/customize_ubuntu_iso_create_spin/) to create custom ubunut image for installing
+The output of the tests are sent as strings using the `Send_String` and `Echo` procedures using the UART interface on GPIO pins 16 (TX) and 17 (RX).
 
+You can read these output strings using a second Raspberry Pi Pico that has the [Pico UART-USB bridge Firmware](https://github.com/Noltari/pico-uart-bridge/releases/tag/v2.1) firmware installed.
 
-### VNC
-On your local machine you will need to install a VNC client. This is so that you can view GNATstudio through the docker container.
+This "Bridge Pico" must be connected to a Computer via USB that has a Serial console installed, such as [Minicom](https://wiki.emacinc.com/wiki/Getting_Started_With_Minicom) or [PuTTY](https://www.chiark.greenend.org.uk/~sgtatham/putty/)
 
-On linux, I have been using Remmina. I used TeamViewer on ATC2 system test and that was adequate. You could also try the chrome extention that allows you to use chrome as a VNC viewer.
+The "Test Pico" must be connected to the "Bridge Pico" as follows:
+|Test Pico |Bridge Pico |
+|--|--|--|
+|GPIO 16 (TX) | GPIO 1 (RX) |
+|GPIO 17 (RX) | GPIO 0 (TX) |
 
-### Docker
+## Dependencies
+Install your favourite text editor/IDE. If you wish to use GNATStudio, see the GNATCommunity and Alire section
 
-#### Installation
-You will need docker installed on your machine.
+### Install Docker
+You will need docker installed on your machine to build the Raspberry Pi Pico firmware from the Ada project.
 
 For full instructions regarding the installation of docker, see the [Docker Getting Started Guide](https://www.docker.com/get-started)
 
 You will also need at least 15GB of space for the completed docker image/containers
 
-#### Running Docker
-If you are using docker desktop (i.e. on a windows machine or mac), you will need to make sure that docker is up to date, and it might be worth clicking the debug icon and restarting docker desktop before running any commands to reduce the likelihood of any errors.
+### Install Python3
+If you wish to use the python `runner.py` tool, you will need python3 installed locally.
 
-To build the docker environment from the Dockerfile, navigate into the directory with the Dockerfile and run the following:
+If you are using linux, you can install python3 using your package manager
 ```
-docker build --build-arg GIT_USER_NAME="<your github username>" --build-arg GIT_USER_EMAIL="<your github email>" --build-arg GITHUB_TOKEN="<your github user token>" -t trains-with-ada:v1 .
-```
-You need to include your github username, github email address and a github authentication token so that docker can set up your details in the image and clone the trains with ada repository.
-
-To generate a GITHUB_TOKEN, go to https://github.com/settings/tokens and click generate new token. Copy the generated token and store it in a file or write it down, then use it in the docker build command.
-
-The above command will create a docker image which can be used to create a container with the following command:
-
-```
-docker container run -it -p 5900:5900 --name=<name for container, e.g. twaenv> -d trains-with-ada:v1
+apt install python3
 ```
 
-This will start the docker container. It will start an interactive terminal into the container window which should contain the project directory.
+Alternatively, you can download and install it from the [python website](https://www.python.org/downloads/)
 
-If you exit the interactive terminal, run the following to re-establish it
+### GNATCommunity and Alire (OPTIONAL)
+You can install GNATStudio on your local machine if you wish to use it as an IDE for writing your SPARK/Ada code.
+To use GNATStudio with the project, you will also need to install [Alire](https://alire.ada.dev/).
+
+Alire is a package manager for Ada/SPARK, and we need it installed to include the Pico_BSP libraries we use.
+
+Note that if you are using another IDE/Text editor, like VSCode or Vim, you do not need to install GNAT Community or Alire; all the `runner.py` commands use docker containers.
+
+#### Installation
+For Mac and Linux there are install scripts for setting up GNAT Community and Alire (in addition to the rest of the toolchain) in the `setup` directory.
 ```
-docker container exec -it <contianer-name> bash
-```
-
-At this point you have an interactive terminal where you can run git commands and edit files using vim or nano, but no gnatstudio window. gnatstudio is being beamed out of the container on port 5900 using VNC.
-
-You need to find the IP address of the container in order to connect to it using your VNC viewer. Run the following on your host machine (not the container terminal):
-```
-docker inspect -f "{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}" <container-name>
-```
-
-This will produce a JSON full of configuration information. The IP address of the container should be near the bottom.
-
-Now connect to `<IP address>:5900` using your VNC viewer, and you should see an XFCE desktop environment!
-
-To launch gnatstudio in the container, open a terminal from within the XFCE desktop environment and run:
-```
-alr edit --project=/root/trains-with-ada/Trains_With_Ada/Trains_With_Ada.gpr"
-```
-This command will launch an instance of gnatstudio, where you can edit code, and do all your git operations.
-
-The git repo is cloned into the container at `/root/trains-with-ada`. You will need to do a `git pull` etc. to make sure everything is uptodate each time you run the container.
-
-
-### Build
-To build the project and get an uf2 firmware, you must run the following in the docker interactive terminal
-```
-cd ~/trains-with-ada
-alr build
-elf2uf2 ./Trains_With_Ada/obj/main ./firmware.uf2
+bash /setup/setup_permissions.sh
+./setup/setup.sh
 ```
 
-You must then copy the firmware file from the docker container to your local machine for flashing onto your Pico.
+Alternatively, you can download GNAT Community and Alire from [the AdaCore Website](https://www.adacore.com/download/more) and [the Alire Website](https://alire.ada.dev/docs/#installation).
 
-On your local machine terminal run the following commands
-```
-docker cp <container name>:/root/trains-with-ada/firmware.uf2 </path/to/pico>
-```
-Now you have the .uf2 file on your host machine, you can flash the Pico!!
+Both of these include comprehensive installation instructions.
+
+## Tips
 
 ### Docker tips
 ```
-docker images
-docker container ls
-docker container start <container name>
-docker container stop <container name>
-docker inspect <container name>
+docker images                           // list images either built locally or pulled from docker hub
+docker container ls                     // list running containers
+docker container ls -a                  // list all containers
+docker container start <container name> // start a stopped container
+docker container stop <container name>  // stop a running container
+docker inspect <container name>         // view configuration information about a container
+docker conatiner prune                  // remove unused containers
 ```
 
 ## Links
 - [Play with Docker Tutorial](https://training.play-with-docker.com/)
 - [Docker Docs](https://docs.docker.com/)
-- [Github Personal Access Tokens](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token)
-- [VNC server setup](https://www.cloudsavvyit.com/10520/how-to-run-gui-applications-in-a-docker-container/)
-
+- [TLDR;Docker](https://github.com/tldr-pages/tldr/blob/master/pages/common/docker.md)
+- [Alire](https://alire.ada.dev/)
+- [Learn Ada](https://learn.adacore.com/)

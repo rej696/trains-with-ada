@@ -1,0 +1,17 @@
+with "pico_bsp.gpr";
+with "../Trains_With_Ada/Trains_With_Ada.gpr";
+
+project Trains_With_Ada_Harness is
+   for Runtime("Ada") use "zfp-cortex-m0p";
+   for Target use "arm-eabi";
+   for Main use ("test_trains_with_ada.adb");
+   for Languages use ("Ada");
+   for Source_Dirs use ("tests");
+   for Object_Dir use "obj";
+   for Create_Missing_Dirs use "True";
+   
+   package Linker is
+      for Default_Switches ("ada") use
+         Pico_BSP.Linker_Switches;
+   end Linker;
+end Trains_With_Ada_Harness;
