@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """Python script for running the GNAT toolchain in docker containers"""
 
 import os

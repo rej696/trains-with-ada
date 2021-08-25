@@ -11,21 +11,21 @@ package body Test_Utilities is
    procedure Initialise is
    begin
       RP.Clock.Initialize (Pico.XOSC_Frequency);
+      RP.Clock.Enable (RP.Clock.PERI);
+      RP.Device.Timer.Enable;
       RP.GPIO.Enable;
       Pico.LED.Configure (RP.GPIO.Output);
       Pico.LED.Set;
-      RP.Device.Timer.Enable;
 
       UART_TX.Configure (RP.GPIO.Output, RP.GPIO.Pull_Up, RP.GPIO.UART);
       UART_RX.Configure (RP.GPIO.Input, RP.GPIO.Floating, RP.GPIO.UART);
---   UART.Configure
---      (Config =>
---          (Baud      => 9600,
---           Word_Size => 8,
---           Parity    => False,
---           Stop_Bits => 1,
---           others    => <>));
-      UART.Enable(115_200);
+      UART.Configure
+         (Config =>
+             (Baud      => 155_200,
+              Word_Size => 8,
+              Parity    => False,
+              Stop_Bits => 1,
+              others    => <>));
    end Initialise;
 
    procedure Echo (Input : in String) is

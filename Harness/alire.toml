@@ -9,4 +9,4 @@ project-files = ["trains_with_ada_harness.gpr"]
 executables = ["test_trains_with_ada"]
 
 [[depends-on]]  # This line was added by `alr with`
-pico_bsp = "^0.4"  # This line was added by `alr with`
+pico_bsp = "0.5"  # This line was added by `alr with`
