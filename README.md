@@ -51,6 +51,10 @@ Test Pico | Bridge Pico
 GPIO 16 (TX) | GPIO 1 (RX)
 GPIO 17 (RX) | GPIO 0 (TX)
 
+## Pico Pinout Diagram
+
+![Pico Pinout Diagram](https://cdn-learn.adafruit.com/assets/assets/000/099/339/original/raspberry_pi_Pico-R3-Pinout-narrow.png?1612915004)
+
 ## Dependencies
 Install your favourite text editor/IDE. If you wish to use GNATStudio, see the GNATCommunity and Alire section
 
