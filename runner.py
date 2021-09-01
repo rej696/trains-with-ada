@@ -46,6 +46,13 @@ if __name__ == "__main__":
         action="store_true",
         help="build the pico-ada-builder docker image from the dockerfile"
     )
+    
+    parser.add_argument(
+        "-u",
+        "--update_dependencies",
+        action="store_true",
+        help="update the alire dependencies in the docker container"
+    )
 
     parser.add_argument(
         "-i",
@@ -90,7 +97,8 @@ if __name__ == "__main__":
             and not args.interactive
             and not args.print_log
             and not args.clean
-            and not args.test):
+            and not args.test
+            and not args.update_dependencies):
         print("No arguments given, run python runner.py --help for options")
         sys.exit()
 
@@ -114,6 +122,27 @@ if __name__ == "__main__":
         except subprocess.CalledProcessError as error:
             print(error)
             print("Clean failed")
+
+    if args.update_dependencies:
+        print("Updating Alire Repository")
+        update_cmd = deepcopy(DOCKER_CMD)
+        update_cmd.extend([
+            "bash",
+            "/build/docker/pico-ada-builder/update.sh"
+        ])
+
+        try:
+            subprocess.run(
+                update_cmd,
+                check=True,
+                stdout=subprocess.PIPE,
+                stdin=subprocess.PIPE,
+                stderr=subprocess.PIPE
+            )
+            print("Update complete")
+        except subprocess.CalledProcessError as error:
+            print(error)
+            print("Update failed")
 
     if args.build_image:
         print("Building pico-ada-builder Docker Image")
@@ -202,6 +231,10 @@ if __name__ == "__main__":
             print("Test firmware build failed")
 
     if args.print_log:
+        if args.update_dependencies:
+            with open("logs/update.log", "r") as f:
+                print("Alire Update Dependencies Log:")
+                print(f.read());
         if args.build:
             with open("logs/build.log", "r") as f:
                 print("Build Log:")
@@ -223,6 +256,14 @@ if __name__ == "__main__":
             with open("logs/test-error.log", "r") as f:
                 print("Test Error Log:")
                 print(f.read())
+
+    if ((os.path.exists("logs/build-error.log")
+         and os.path.getsize("logs/build-error.log") != 0)
+        or (os.path.exists("logs/prove-error.log")
+            and os.path.getsize("logs/prove-error.log") != 0)
+        or (os.path.exists("logs/test-error.log")
+            and os.path.getsize("logs/test-error.log") != 0)):
+        print("\033[0;31m"+"ERROR!! Check error logs or run again with -l \033[0;0m", file=sys.stderr)
 
     if args.interactive:
         print("Opening interactive container")
