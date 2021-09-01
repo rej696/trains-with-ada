@@ -12,8 +12,8 @@ with RP.Clock;
 
 procedure Test_Trains_With_Ada is
    UART    : RP.UART.UART_Port renames RP.Device.UART_0;
-   UART_TX : RP.GPIO.GPIO_Point renames Pico.GP12;
-   UART_RX : RP.GPIO.GPIO_Point renames Pico.GP13;
+   UART_TX : RP.GPIO.GPIO_Point renames Pico.GP16;
+   UART_RX : RP.GPIO.GPIO_Point renames Pico.GP17;
 
    procedure Echo (Input : in String) is
       Buffer : UART_Data_8b (1 .. Input'Length);
@@ -28,6 +28,9 @@ procedure Test_Trains_With_Ada is
          Echo ("Echo transmit failed with status " & Status'Image);
       end if;
    end Echo;
+
+   type Result is (Correct, Incorrect, Partial);
+   Count: Natural := 0;
 begin
    -- Initialisation preamble
    RP.Clock.Initialize (Pico.XOSC_Frequency);
@@ -52,28 +55,28 @@ begin
    loop
       -- Call Test Function/Procedure
       -- Default Test
-      declare
-         Result : Boolean := True;
-      begin
+      for Test in Result'Range loop
+         Echo ("Test" & Count'Image & ": ");
 
-         Echo ("Test1: ");
-
-         if Result then
-            Echo ("Pass" & ASCII.LF);
+         if Test = Correct then
+            Echo ("Pass" & ASCII.CR & ASCII.LF);
+         elsif Test = Partial then
+            Echo ("Partial" & ASCII.CR & ASCII.LF);
          else
-            Echo ("Fail" & ASCII.LF);
+            Echo ("Fail" & ASCII.CR & ASCII.LF);
          end if;
 
-         Result := not Result;
-      end;
 
-      declare
-         Hello : constant String := "Hello, Pico!" & ASCII.CR & ASCII.LF;
-      begin
-         Echo (Hello);
-      end;
-      Pico.LED.Toggle;
-      RP.Device.Timer.Delay_Milliseconds(100);
+         Pico.LED.Toggle;
+         RP.Device.Timer.Delay_Milliseconds(100);
+
+         if Count > 150 then
+            RP.Device.Timer.Delay_Milliseconds(5000);
+            Count := 1;
+         else
+            Count := Natural'Succ(Count);
+         end if;
+      end loop;
    end loop;
 
 end Test_Trains_With_Ada;
